@@ -3,10 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mini Message Board</title>
+    <title><%= title %></title>
   </head>
   <body>
-    <h1>Welcome to the Mini Message Board</h1>
-    <p>Your Express and EJS project is set up.</p>
+    <h1><%= title %></h1>
+
+    <ul>
+      <% messages.forEach((message) => { %>
+      <li>
+        <h2><%= message.user %></h2>
+        <p><%= message.text %></p>
+        <small><%= message.added %></small>
+      </li>
+      <% }) %>
+    </ul>
   </body>
 </html>
