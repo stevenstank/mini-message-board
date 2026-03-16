@@ -35,4 +35,16 @@ router.post("/new", (req, res) => {
   res.redirect("/");
 });
 
+router.get("/messages/:id", (req, res) => {
+  const messageId = Number(req.params.id);
+  const message = messages[messageId];
+
+  if (!message) {
+    res.status(404).send("Message not found");
+    return;
+  }
+
+  res.render("message", { title: "Message Detail", message: message });
+});
+
 module.exports = router;
