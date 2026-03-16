@@ -19,4 +19,8 @@ router.get("/", (req, res) => {
   res.render("index", { title: "Mini Messageboard", messages: messages });
 });
 
+router.get("/new", (req, res) => {
+  res.render("form", { title: "New Message" });
+});
+
 module.exports = router;
