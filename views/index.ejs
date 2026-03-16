@@ -4,23 +4,34 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= title %></title>
+    <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <h1><%= title %></h1>
+    <main class="container">
+      <h1 class="page-title"><%= title %></h1>
 
-    <p>
-      <a href="/new">Create a New Message</a>
-    </p>
+      <p class="actions">
+        <a class="btn-link" href="/new">Create a New Message</a>
+      </p>
 
-    <ul>
-      <% messages.forEach((message, index) => { %>
-      <li>
-        <h2><%= message.user %></h2>
-        <p><%= message.text %></p>
-        <small><%= message.added %></small>
-        <p><a href="/messages/<%= index %>">Open</a></p>
-      </li>
-      <% }) %>
-    </ul>
+      <ul class="message-list">
+        <% messages.forEach((message, index) => { %>
+        <li class="message-card">
+          <h2 class="message-author"><%= message.user %></h2>
+          <p class="message-text"><%= message.text %></p>
+          <small class="message-meta"><%= message.added %></small>
+          <p class="card-actions">
+            <a class="btn-link" href="/messages/<%= index %>">Open</a>
+          </p>
+        </li>
+        <% }) %>
+      </ul>
+    </main>
+    <footer class="site-footer">
+      <p>
+        made with ❤️ by
+        <a href="https://github.com/stevenstank" target="_blank" rel="noopener noreferrer">stevenstank</a>
+      </p>
+    </footer>
   </body>
 </html>
