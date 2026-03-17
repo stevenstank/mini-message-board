@@ -22,6 +22,9 @@ https://mini-message-board-02gk.onrender.com/
 
 * **Node.js**
 * **Express.js**
+* **PostgreSQL**
+* **node-postgres (pg)**
+* **dotenv**
 * **EJS (Embedded JavaScript Templates)**
 * **CSS**
 * **Render** (deployment)
@@ -34,6 +37,9 @@ https://mini-message-board-02gk.onrender.com/
 mini-message-board
 │
 ├── public/          # Static files (CSS)
+├── db/              # Database pool and seed script
+│   ├── pool.js
+│   └── populatedb.js
 ├── routes/          # Express route handlers
 │   └── index.js
 │
@@ -73,7 +79,25 @@ npm install
 
 ## Running the Project Locally
 
-Start the server:
+1. Create a root `.env` file:
+
+```
+DATABASE_URL=<your_render_database_url>
+```
+
+2. Install dependencies:
+
+```
+npm install
+```
+
+3. Create the table and seed sample rows:
+
+```
+node db/populatedb.js
+```
+
+4. Start the server:
 
 ```
 node app.js
@@ -93,8 +117,8 @@ http://localhost:3000
 | --------------- | ------ | -------------------------------------- |
 | `/`             | GET    | Displays all messages                  |
 | `/new`          | GET    | Shows the form to create a new message |
-| `/new`          | POST   | Adds a new message                     |
-| `/messages/:id` | GET    | Displays details of a specific message |
+| `/new`          | POST   | Validates and inserts a new message    |
+| `/message/:id`  | GET    | Displays details of a specific message |
 
 ---
 
@@ -120,12 +144,31 @@ The server listens using:
 const PORT = process.env.PORT || 3000;
 ```
 
+Database connection uses:
+
+```
+process.env.DATABASE_URL
+```
+
+Environment variables are loaded with:
+
+```
+require("dotenv").config()
+```
+
+SSL is enabled with:
+
+```
+ssl: { rejectUnauthorized: false }
+```
+
 ---
 
 ## Notes
 
-* Messages are stored in an **in-memory array**, so they reset when the server restarts.
-* This project was built to practice **Express routing, EJS templating, and form handling**.
+* Messages are stored in PostgreSQL in a `messages` table.
+* Validation rejects empty or whitespace-only username/message values.
+* The app works locally via `.env` and on Render via the Render dashboard environment variable.
 
 ---
 
