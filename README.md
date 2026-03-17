@@ -2,6 +2,7 @@
 
 A simple **message board web application** built using **Node.js, Express, and EJS**.
 Users can view messages, add new messages, and open individual message pages.
+Messages are persisted in **PostgreSQL**.
 
 🌐 **Live Demo:**
 https://mini-message-board-02gk.onrender.com/
@@ -13,6 +14,8 @@ https://mini-message-board-02gk.onrender.com/
 * View all messages on the home page
 * Add a new message using a form
 * Open individual message pages
+* Persistent storage with PostgreSQL
+* Input validation for username and message text
 * Server-side rendering using **EJS**
 * Simple **dark UI theme (black with yellow accents)**
 
@@ -79,7 +82,7 @@ npm install
 
 ## Running the Project Locally
 
-1. Create a root `.env` file:
+1. Create a root `.env` file and add your connection string:
 
 ```
 DATABASE_URL=<your_render_database_url>
@@ -94,13 +97,13 @@ npm install
 3. Create the table and seed sample rows:
 
 ```
-node db/populatedb.js
+npm run db:seed
 ```
 
 4. Start the server:
 
 ```
-node app.js
+npm start
 ```
 
 Then open your browser and go to:
@@ -108,6 +111,17 @@ Then open your browser and go to:
 ```
 http://localhost:3000
 ```
+
+---
+
+## Database Schema
+
+The app uses a `messages` table:
+
+* `id` - auto-increment primary key
+* `text` - `TEXT NOT NULL`
+* `username` - `VARCHAR(255) NOT NULL`
+* `added` - `TIMESTAMP DEFAULT CURRENT_TIMESTAMP`
 
 ---
 
@@ -162,6 +176,12 @@ SSL is enabled with:
 ssl: { rejectUnauthorized: false }
 ```
 
+### Render Environment Variable
+
+In your Render service settings, set:
+
+* `DATABASE_URL` = your Render PostgreSQL external connection string
+
 ---
 
 ## Notes
@@ -169,6 +189,11 @@ ssl: { rejectUnauthorized: false }
 * Messages are stored in PostgreSQL in a `messages` table.
 * Validation rejects empty or whitespace-only username/message values.
 * The app works locally via `.env` and on Render via the Render dashboard environment variable.
+* You can also seed with a direct URL argument:
+
+```
+node db/populatedb.js "postgresql://..."
+```
 
 ---
 
